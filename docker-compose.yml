@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  # -------------------------
+  # Service 1: IA (Projet 4)
+  # -------------------------
+  ia-service:
+    build: ./ia-service
+    container_name: safedrive-ia
+    ports:
+      - "5001:80"  # Accessible sur localhost:5001
+
+  # -------------------------
+  # Service 2: Cyber (Projet 1)
+  # -------------------------
+  cyber-service:
+    build: ./cyber-service
+    container_name: safedrive-cyber
+    ports:
+      - "5002:80"  # Accessible sur localhost:5002
+
+  # -------------------------
+  # Service 3: Gateway (SOA)
+  # -------------------------
+  api-gateway:
+    build: ./api-gateway
+    container_name: safedrive-gateway
+    ports:
+      - "8000:80"  # Accessible sur localhost:8000
+    depends_on:
+      - ia-service
+      - cyber-service
+
+  # -------------------------
+  # Bonus: Base de données (Si besoin plus tard)
+  # -------------------------
+  # redis:
+  #   image: redis:alpine
