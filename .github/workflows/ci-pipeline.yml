@@ -1,0 +1,36 @@
+name: SafeDrive CI Pipeline
+
+# 1. Quand est-ce que le robot se réveille ?
+# À chaque "push" (envoi de code) sur la branche "main"
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+# 2. Qu'est-ce qu'il doit faire ?
+jobs:
+  build-and-test:
+    # Il tourne sur une machine virtuelle Linux fournie par GitHub
+    runs-on: ubuntu-latest
+
+    steps:
+      # Étape A : Le robot télécharge votre code
+      - name: Checkout du code
+        uses: actions/checkout@v3
+
+      # Étape B : Il vérifie que le service IA se construit bien
+      - name: Build Docker IA Service
+        run: docker build -t safedrive-ia ./ia-service
+
+      # Étape C : Il vérifie que le service Cyber se construit bien
+      - name: Build Docker Cyber Service
+        run: docker build -t safedrive-cyber ./cyber-service
+
+      # Étape D : Il vérifie que la Gateway se construit bien
+      - name: Build Docker Gateway
+        run: docker build -t safedrive-gateway ./api-gateway
+
+      # (Optionnel) Étape E : Il lance un petit test scripté
+      - name: Test simple (Echo)
+        run: echo "Tous les conteneurs ont été construits avec succès !"
