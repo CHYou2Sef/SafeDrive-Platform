@@ -1,4 +1,4 @@
-version: '3.8'
+#version: '3.8'
 
 services:
   # -------------------------
@@ -8,7 +8,7 @@ services:
     build: ./ia-service
     container_name: safedrive-ia
     ports:
-      - "5001:80"  # Accessible sur localhost:5001
+      - "50051:50051" # Port gRPC exposé
 
   # -------------------------
   # Service 2: Cyber (Projet 1)
@@ -17,7 +17,7 @@ services:
     build: ./cyber-service
     container_name: safedrive-cyber
     ports:
-      - "5002:80"  # Accessible sur localhost:5002
+      - "5002:8000"  # Accessible sur localhost:5002
 
   # -------------------------
   # Service 3: Gateway (SOA)
